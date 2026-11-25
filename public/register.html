@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><title>Smart Farm Bot - Register</title><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="css/fonts.css" rel="stylesheet"/>
+<link href="css/tailwind.build.css" rel="stylesheet"/>
+<link href="css/theme.css?v=3" rel="stylesheet"/><meta content="web_blank" name="shell-type"/>
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface font-body-md text-on-surface antialiased flex items-center justify-center min-h-screen"><canvas id="ridges-bg"></canvas><main class="w-full max-w-md mx-auto p-space-lg"><div class="flex flex-col w-full">
+<div class="sfb-auth-card relative w-full overflow-hidden bg-surface-container-lowest rounded-xl shadow-xl p-space-lg md:p-space-xl">
+<div class="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-primary-fixed opacity-30 blur-2xl pointer-events-none"></div>
+<div class="absolute -bottom-16 -left-16 w-44 h-44 rounded-full bg-secondary-fixed opacity-40 blur-2xl pointer-events-none"></div>
+<div class="relative flex flex-col items-center text-center mb-space-lg">
+<div class="relative flex items-center justify-center w-16 h-16 rounded-xl bg-surface-container p-space-xs mb-space-sm shadow-sm">
+<img alt="Smart Farm Bot Rover Logo" class="w-full h-full object-contain rounded-lg" src="assets/logo.png"/>
+<span class="absolute -top-1 -right-1 flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-fixed-dim opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-primary-container"></span>
+</span>
+</div>
+<div class="inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps mb-space-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+        SYSTEM REGISTRATION // PROVISIONING
+      </div>
+<h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">
+        Smart Farm Bot
+      </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">
+        Operator Registration &amp; Station Access
+      </p>
+</div>
+<form class="relative flex flex-col gap-space-md" id="register-form">
+<div class="flex flex-col gap-space-xs">
+<label class="flex justify-between items-center font-label-md text-label-md text-on-surface" for="username">
+<span>Operator ID / Username</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Required</span>
+</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-space-sm text-on-surface-variant pointer-events-none text-base">badge</span>
+<input class="w-full h-10 pl-9 pr-space-md rounded-lg bg-surface-container-low text-on-surface font-telemetry-readout text-body-md placeholder:text-on-surface-variant placeholder:opacity-60 focus:outline-none focus:bg-surface-container transition-all" id="username" name="username" placeholder="e.g. OP-8849 or j.miller" required="" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface" for="password">
+            Password
+          </label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-space-sm text-on-surface-variant pointer-events-none text-base">key</span>
+<input class="w-full h-10 pl-9 pr-space-md rounded-lg bg-surface-container-low text-on-surface font-body-md placeholder:text-on-surface-variant placeholder:opacity-60 focus:outline-none focus:bg-surface-container transition-all" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface" for="confirm-password">
+            Confirm Password
+          </label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-space-sm text-on-surface-variant pointer-events-none text-base">lock</span>
+<input class="w-full h-10 pl-9 pr-space-md rounded-lg bg-surface-container-low text-on-surface font-body-md placeholder:text-on-surface-variant placeholder:opacity-60 focus:outline-none focus:bg-surface-container transition-all" id="confirm-password" name="confirm-password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex justify-between items-baseline">
+<span class="font-label-md text-label-md text-on-surface">Telemetry Clearance &amp; Role</span>
+<span class="font-label-caps text-label-caps text-secondary font-semibold">SELECT ONE</span>
+</div>
+<div class="grid grid-cols-1 gap-space-xs">
+<label class="group relative flex items-start p-space-md rounded-lg cursor-pointer transition-all bg-primary-fixed/20 shadow-sm" id="card-farmer">
+<input checked="" class="sr-only" name="role" onchange="updateRoleSelection()" type="radio" value="farmer"/>
+<div class="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-container text-on-primary mr-space-md shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-lg">potted_plant</span>
+</div>
+<div class="flex flex-col flex-grow min-w-0 pr-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-body-lg font-semibold text-on-surface">Farmer</span>
+<span class="font-label-caps text-label-caps px-space-2xs py-0.5 rounded bg-primary-fixed-dim text-on-primary-fixed font-bold uppercase">Standard</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs leading-relaxed">
+                Start/stop bot, view real-time field status and automated alerts.
+              </p>
+</div>
+<div class="w-5 h-5 rounded-full bg-primary-container text-on-primary flex items-center justify-center shrink-0" id="check-farmer">
+<span class="material-symbols-outlined text-xs">check</span>
+</div>
+</label>
+<label class="group relative flex items-start p-space-md rounded-lg cursor-pointer transition-all bg-surface-container-low hover:bg-surface-container" id="card-technician">
+<input class="sr-only" name="role" onchange="updateRoleSelection()" type="radio" value="technician"/>
+<div class="flex items-center justify-center w-8 h-8 rounded-lg bg-surface-container-highest text-on-surface-variant mr-space-md shrink-0">
+<span class="material-symbols-outlined text-lg">precision_manufacturing</span>
+</div>
+<div class="flex flex-col flex-grow min-w-0 pr-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-body-lg font-semibold text-on-surface">Technician</span>
+<span class="font-label-caps text-label-caps px-space-2xs py-0.5 rounded bg-secondary-container text-on-secondary-container font-bold uppercase">Diagnostics</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs leading-relaxed">
+                Adds sensor calibration, raw telemetry stream &amp; serial logs access.
+              </p>
+</div>
+<div class="w-5 h-5 rounded-full bg-surface-dim text-transparent flex items-center justify-center shrink-0" id="check-technician">
+<span class="material-symbols-outlined text-xs">check</span>
+</div>
+</label>
+</div>
+</div>
+<div class="hidden flex items-start gap-space-xs p-space-sm rounded bg-error-container text-on-error-container shadow-sm" id="registerAlert">
+<span class="material-symbols-outlined text-error text-lg mt-0.5 shrink-0">error</span>
+<p class="font-body-sm text-body-sm leading-tight" id="registerAlertMessage">Registration failed.</p>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container flex items-center justify-between font-label-caps text-label-caps text-on-surface-variant">
+<span class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-sm text-primary-container">wifi_tethering</span>
+          NODE RTK-GEO: 04.992
+        </span>
+<span class="font-telemetry-readout font-bold text-primary-container">LINK: NOMINAL</span>
+</div>
+<button class="w-full h-11 mt-space-2xs flex items-center justify-center gap-space-xs bg-primary-container hover:bg-primary text-on-primary rounded-lg font-label-md text-body-md font-semibold tracking-wide transition-colors shadow-md active:scale-[0.99]" id="submit-btn" type="submit">
+<span>Create Account</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+<div class="flex items-center justify-center gap-space-2xs text-center font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">
+<span>Already registered?</span>
+<a class="font-label-md font-semibold text-primary hover:text-primary-container transition-colors inline-flex items-center gap-0.5" href="login.html">
+<span>Log In back</span>
+<span class="material-symbols-outlined text-xs">arrow_back</span>
+</a>
+</div>
+</form>
+</div>
+<div class="mt-space-md text-center flex flex-col gap-space-2xs">
+<div class="flex items-center justify-center gap-space-md text-on-surface-variant opacity-75 font-label-caps text-label-caps">
+<span>AGRI-OS v4.12.0</span>
+<span>•</span>
+<span>FIELD NODE ACTIVE</span>
+<span>•</span>
+<span>SECURE BOOT</span>
+</div>
+</div>
+<script>
+    function updateRoleSelection() {
+      const isFarmer = document.querySelector('input[name="role"][value="farmer"]').checked;
+      const cardFarmer = document.getElementById('card-farmer');
+      const cardTech = document.getElementById('card-technician');
+      const checkFarmer = document.getElementById('check-farmer');
+      const checkTech = document.getElementById('check-technician');
+
+      if (isFarmer) {
+        cardFarmer.className = 'group relative flex items-start p-space-md rounded-lg cursor-pointer transition-all bg-primary-fixed/20 shadow-sm';
+        cardTech.className = 'group relative flex items-start p-space-md rounded-lg cursor-pointer transition-all bg-surface-container-low hover:bg-surface-container';
+
+        checkFarmer.className = 'w-5 h-5 rounded-full bg-primary-container text-on-primary flex items-center justify-center shrink-0';
+        checkTech.className = 'w-5 h-5 rounded-full bg-surface-dim text-transparent flex items-center justify-center shrink-0';
+      } else {
+        cardFarmer.className = 'group relative flex items-start p-space-md rounded-lg cursor-pointer transition-all bg-surface-container-low hover:bg-surface-container';
+        cardTech.className = 'group relative flex items-start p-space-md rounded-lg cursor-pointer transition-all bg-secondary-fixed/25 shadow-sm';
+
+        checkFarmer.className = 'w-5 h-5 rounded-full bg-surface-dim text-transparent flex items-center justify-center shrink-0';
+        checkTech.className = 'w-5 h-5 rounded-full bg-secondary text-on-secondary flex items-center justify-center shrink-0';
+      }
+    }
+  </script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/glowing-ridges.js"></script>
+</div></main></body></html>

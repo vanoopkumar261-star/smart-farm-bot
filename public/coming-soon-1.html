@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><title>Smart Farm Bot - Mission Planner</title><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="css/fonts.css" rel="stylesheet"/>
+<link href="css/tailwind.build.css" rel="stylesheet"/>
+<link href="css/theme.css?v=3" rel="stylesheet"/><meta content="web_standard" name="shell-type"/>
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-28 w-full flex flex-col justify-between"><div class="h-16 px-margin md:px-margin-desktop flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-lg"><img alt="Smart Farm Bot Rover Logo" class="h-8 w-auto object-contain" src="assets/logo.png"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">Smart Farm Bot</span><div class="flex items-center gap-space-xs mt-space-2xs"><span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span><span class="font-label-caps text-label-caps text-primary uppercase font-semibold">ROVER ONLINE • FIELD 04</span></div></div></div><div class="flex items-center gap-space-md"><div class="hidden lg:flex items-center gap-space-xs px-space-md py-space-xs rounded bg-surface-container-low"><span class="material-symbols-outlined text-outline text-[16px]">schedule</span><span class="font-telemetry-readout text-telemetry-unit text-on-surface font-medium">09:42:18 UTC</span></div><div class="hidden sm:flex items-center gap-space-sm px-space-md py-space-2xs rounded bg-surface-container-low"><span id="header-username" class="font-label-caps text-label-caps text-on-surface-variant">user: -</span><span id="header-role" class="font-label-caps text-label-caps text-primary px-space-xs py-space-2xs rounded bg-primary-fixed/30 font-semibold">-</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><a id="logout-link" class="flex items-center gap-space-xs px-space-md py-space-xs rounded bg-surface-container-low hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" data-path="login" href="login.html"><span class="material-symbols-outlined text-[16px]">logout</span><span class="hidden md:inline">Log Out</span></a></div></div><div class="h-12 px-margin md:px-margin-desktop flex items-center bg-surface-container-low/60"><nav class="flex items-center gap-space-xs overflow-x-auto" data-active-classes="bg-primary text-on-primary shadow-[0_1px_4px_rgba(0,0,0,0.08)]"><a class="px-space-md py-space-xs rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="dashboard" href="dashboard.html">Dashboard</a><a class="px-space-md py-space-xs rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="hardware" href="hardware.html">Hardware</a><a aria-current="page" class="px-space-md py-space-xs rounded font-label-md transition-colors whitespace-nowrap bg-primary text-on-primary shadow-[0_1px_4px_rgba(0,0,0,0.08)]" data-path="mission-planner" href="coming-soon-1.html">Mission Planner</a><a class="px-space-md py-space-xs rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="field-analytics" href="field-analytics.html">Field Analytics</a></nav></div></div></header><main class="w-full pt-28 bg-surface min-h-screen"><div class="flex flex-col w-full px-margin md:px-margin-desktop py-space-xl">
+<div class="w-full max-w-5xl mx-auto flex flex-col gap-space-xl">
+<!-- Top Technical Coordinate / Status Strip -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm bg-surface-container-low px-space-md py-space-xs rounded text-on-surface-variant">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+<span class="font-label-caps text-label-caps uppercase text-secondary">SYS_MODE: R&amp;D COMPILATION</span>
+</div>
+<span class="text-outline-variant">/</span>
+<span class="font-label-caps text-label-caps text-outline">TARGET: RTK-NAV_SUBMODULE_v3.4</span>
+</div>
+<div class="flex items-center gap-space-md font-telemetry-readout text-telemetry-unit">
+<span>LAT: 44°58'12.4"N</span>
+<span class="text-outline-variant">|</span>
+<span>LON: 93°16'04.8"W</span>
+<span class="text-outline-variant">|</span>
+<span class="text-primary font-semibold">CADENCE: Q3-ROLLOUT</span>
+</div>
+</div>
+<!-- Main Centerpiece Engineering Card -->
+<div class="relative bg-surface-container-lowest rounded-xl shadow-sm p-space-xl md:p-12 overflow-hidden flex flex-col items-center text-center">
+<!-- Technical Orthogonal Background Lattice (Instrument Aesthetic) -->
+<div class="absolute inset-0 pointer-events-none opacity-40 flex items-center justify-center">
+<svg class="w-full h-full text-surface-container-highest" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="48" id="grid-pattern" patternunits="userSpaceOnUse" width="48">
+<path d="M 48 0 L 0 0 0 48" fill="none" stroke="currentColor" stroke-dasharray="2 4" stroke-width="0.75"></path>
+<circle cx="0" cy="0" fill="currentColor" r="1.5"></circle>
+</pattern>
+</defs>
+<rect fill="url(#grid-pattern)" height="100%" width="100%"></rect>
+</svg>
+</div>
+<!-- Corner Crosshair Calibrations -->
+<div class="absolute top-4 left-4 font-telemetry-readout text-telemetry-unit text-outline-variant select-none">┌ [00,00]</div>
+<div class="absolute top-4 right-4 font-telemetry-readout text-telemetry-unit text-outline-variant select-none">[01,00] ┐</div>
+<div class="absolute bottom-4 left-4 font-telemetry-readout text-telemetry-unit text-outline-variant select-none">└ [00,01]</div>
+<div class="absolute bottom-4 right-4 font-telemetry-readout text-telemetry-unit text-outline-variant select-none">[01,01] ┘</div>
+<!-- Icon Graphic Container -->
+<div class="relative z-10 mb-space-lg flex items-center justify-center">
+<div class="relative w-36 h-36 flex items-center justify-center">
+<!-- Outer Pulsing Range Rings -->
+<div class="absolute inset-0 rounded-full bg-primary-fixed/20 animate-pulse"></div>
+<div class="absolute inset-3 rounded-full bg-surface-container-low flex items-center justify-center shadow-inner">
+<!-- Precision Vector SVG: Agricultural Waypoint Compass & Row Path -->
+<svg class="w-20 h-20 text-primary" fill="none" viewbox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+<!-- Field Row Guidelines -->
+<path d="M12 24C24 24 28 56 44 56C56 56 62 40 68 40" opacity="0.35" stroke="currentColor" stroke-dasharray="3 3" stroke-linecap="round" stroke-width="2"></path>
+<path d="M14 34C26 34 30 66 46 66C58 66 64 50 70 50" opacity="0.2" stroke="currentColor" stroke-dasharray="2 3" stroke-linecap="round" stroke-width="1.5"></path>
+<!-- Compass Geodetic Target Outer Ring -->
+<circle cx="40" cy="38" r="22" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.5"></circle>
+<circle cx="40" cy="38" r="14" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.2"></circle>
+<!-- Crosshair Axis -->
+<line stroke="currentColor" stroke-linecap="round" stroke-width="2" x1="40" x2="40" y1="12" y2="18"></line>
+<line stroke="currentColor" stroke-linecap="round" stroke-width="2" x1="40" x2="40" y1="58" y2="64"></line>
+<line stroke="currentColor" stroke-linecap="round" stroke-width="2" x1="14" x2="20" y1="38" y2="38"></line>
+<line stroke="currentColor" stroke-linecap="round" stroke-width="2" x1="60" x2="66" y1="38" y2="38"></line>
+<!-- Rover Navigation Waypoint Node -->
+<path d="M40 22L48 35H32L40 22Z" fill="#835425"></path>
+<circle cx="40" cy="38" fill="currentColor" r="3.5"></circle>
+<circle cx="40" cy="38" r="6" stroke="#835425" stroke-width="1.5"></circle>
+<!-- Target Marker Flag -->
+<circle cx="58" cy="22" fill="#154212" r="3"></circle>
+<path d="M58 25V31" stroke="#154212" stroke-linecap="round" stroke-width="1.5"></path>
+</svg>
+</div>
+<!-- Micro RTK Lock Badge -->
+<div class="absolute -bottom-2 bg-secondary text-on-secondary px-space-xs py-space-2xs rounded text-[9px] font-label-caps font-bold tracking-widest uppercase shadow-sm">
+            RTK GPS SYNC
+          </div>
+</div>
+</div>
+<!-- Prominent Status Pill -->
+<div class="relative z-10 inline-flex items-center gap-space-xs px-space-md py-space-2xs rounded-full bg-secondary-container/40 text-on-secondary-container mb-space-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-caps text-label-caps font-bold tracking-wider uppercase">Coming Soon • Phase II Architecture</span>
+</div>
+<!-- Primary Page Identifier -->
+<h1 class="relative z-10 font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight mb-space-xs">
+        Mission Planner
+      </h1>
+<!-- Supporting Body Text with High Readability -->
+<p class="relative z-10 max-w-xl font-body-lg text-body-lg text-on-surface-variant mb-space-lg leading-relaxed">
+        This feature is planned for a future release. Autonomous multi-waypoint mapping, GPS boundary geofencing, and automated row patrol scheduling are currently in development.
+      </p>
+<!-- Subsystem Telemetry Spec Pill Strip -->
+<div class="relative z-10 w-full max-w-2xl bg-surface-container-low rounded-lg p-space-md mb-space-xl">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-caps text-label-caps uppercase text-outline">PLANNED CAPABILITIES SPECIFICATION</span>
+<span class="font-telemetry-readout text-telemetry-unit text-primary font-semibold">FIRMWARE REV 1.4-RC</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-xs text-left">
+<div class="bg-surface-container-lowest rounded p-space-xs flex flex-col gap-space-2xs shadow-sm">
+<span class="font-label-caps text-label-caps text-outline truncate">GEO-CONTAINMENT</span>
+<div class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary text-[14px]">polyline</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">GPS Geofencing</span>
+</div>
+<span class="font-telemetry-readout text-[10px] text-on-surface-variant">±1.2cm threshold</span>
+</div>
+<div class="bg-surface-container-lowest rounded p-space-xs flex flex-col gap-space-2xs shadow-sm">
+<span class="font-label-caps text-label-caps text-outline truncate">ROUTE TOPOLOGY</span>
+<div class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary text-[14px]">alt_route</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Multi-Field Waypoints</span>
+</div>
+<span class="font-telemetry-readout text-[10px] text-on-surface-variant">Up to 256 nodes</span>
+</div>
+<div class="bg-surface-container-lowest rounded p-space-xs flex flex-col gap-space-2xs shadow-sm">
+<span class="font-label-caps text-label-caps text-outline truncate">AUTONOMY &amp; POWER</span>
+<div class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-secondary text-[14px]">solar_power</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Return to Solar Dock</span>
+</div>
+<span class="font-telemetry-readout text-[10px] text-on-surface-variant">Low-V telemetry auto</span>
+</div>
+<div class="bg-surface-container-lowest rounded p-space-xs flex flex-col gap-space-2xs shadow-sm">
+<span class="font-label-caps text-label-caps text-outline truncate">SURVEILLANCE</span>
+<div class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary text-[14px]">schedule</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Automated Patrols</span>
+</div>
+<span class="font-telemetry-readout text-[10px] text-on-surface-variant">Canopy health audit</span>
+</div>
+</div>
+</div>
+<!-- Action Panel -->
+<div class="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-space-md w-full max-w-md">
+<button class="w-full sm:w-auto flex-1 flex items-center justify-center gap-space-xs px-space-lg py-space-sm rounded bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors font-label-md text-label-md font-semibold shadow-sm" id="notify-beta-btn">
+<span class="material-symbols-outlined text-secondary text-[18px]">notification_add</span>
+<span>Notify When Beta Ready</span>
+</button>
+<a class="w-full sm:w-auto flex-1 flex items-center justify-center gap-space-xs px-space-lg py-space-sm rounded bg-primary hover:bg-primary-container text-on-primary transition-colors font-label-md text-label-md font-semibold shadow-sm" data-path="dashboard" href="dashboard.html">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+<span>Back to Dashboard</span>
+</a>
+</div>
+<!-- Inline Notification Feedback Toast -->
+<div class="hidden relative z-10 mt-space-md px-space-md py-space-xs rounded bg-primary-fixed text-on-primary-fixed text-label-md font-label-md flex items-center gap-space-xs transition-opacity duration-300" id="notify-toast">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>Telemetry channel configured: You'll receive mission planner dispatch alerts at release.</span>
+</div>
+</div>
+<!-- Bottom Secondary Diagnostics Ribbon -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Module 01 -->
+<div class="bg-surface-container-lowest rounded-lg p-space-md shadow-sm flex items-start gap-space-md">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">satellite_alt</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-outline">CONSTELLATION STATUS</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold mt-space-2xs">Dual-Band GNSS Online</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Receiving 28 SV signals across GPS/GLONASS</span>
+</div>
+</div>
+<!-- Module 02 -->
+<div class="bg-surface-container-lowest rounded-lg p-space-md shadow-sm flex items-start gap-space-md">
+<div class="w-8 h-8 rounded bg-secondary/10 flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-[18px]">crop_free</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-outline">GEOFENCE BUFFER</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold mt-space-2xs">Plot Polygon Stored</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Sector 04 Perimeter: 1,840m active fence</span>
+</div>
+</div>
+<!-- Module 03 -->
+<div class="bg-surface-container-lowest rounded-lg p-space-md shadow-sm flex items-start gap-space-md">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined text-[18px]">developer_board</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-outline">PLANNER REPO</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold mt-space-2xs">Sprint 24.2 Compiling</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Automated trajectory generation tests 82%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const notifyBtn = document.getElementById('notify-beta-btn');
+    const notifyToast = document.getElementById('notify-toast');
+    
+    if (notifyBtn && notifyToast) {
+      notifyBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        notifyBtn.disabled = true;
+        notifyBtn.classList.add('opacity-60', 'cursor-not-allowed');
+        notifyBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] text-primary">done_all</span><span>Subscribed to Beta</span>';
+        
+        notifyToast.classList.remove('hidden');
+        notifyToast.style.opacity = '0';
+        setTimeout(() => {
+          notifyToast.style.opacity = '1';
+        }, 50);
+      });
+    }
+  })();
+</script></main><footer class="w-full bg-surface-container-low py-space-lg"><div class="w-full px-margin md:px-margin-desktop flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><span class="font-label-caps text-label-caps text-outline">TELEMETRY BUS: ACTIVE</span><span class="font-label-caps text-label-caps text-outline">RTK PRECISION: ±1.2CM</span><span class="font-label-caps text-label-caps text-outline">CAN PROTOCOL v2.4</span></div><div class="font-label-caps text-label-caps text-outline">© 2024 Smart Farm Bot Autonomous Agricultural Systems. All rights reserved.</div></div></footer><script src="js/api.js"></script><script src="js/nav.js"></script></body></html>

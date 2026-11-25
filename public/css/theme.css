@@ -1,0 +1,275 @@
+/* ============================================================================
+   Smart Farm Bot — theme.css
+   Dark "mission-control" re-skin layer. Loaded AFTER css/tailwind.build.css so
+   these rules win on source order (equal specificity) and retheme the whole site
+   by redefining the SAME utility classes the markup + JS already use.
+   NOTHING here renames a JS hook — only appearance changes.
+   ============================================================================ */
+
+:root{
+  /* --- surfaces (deep slate-BLUE ramp, derived from the #4682A9 sky palette) --- */
+  --sfb-bg:            #070B11;   /* page */
+  --sfb-surface:       #0A0F17;
+  --sfb-sc-lowest:     #0E141F;   /* cards */
+  --sfb-sc-low:        #131B28;
+  --sfb-sc:            #182233;
+  --sfb-sc-high:       #1F2C40;
+  --sfb-sc-highest:    #273850;
+  --sfb-sc-dim:        #0E141F00; /* unused alpha guard */
+  --sfb-dim:           #101827;
+
+  /* --- ink (cool-neutral, a touch of blue) --- */
+  --sfb-on:            #E7EEF5;   /* on-surface */
+  --sfb-on-variant:    #A2B2C4;   /* on-surface-variant */
+  --sfb-outline:       #5E748C;
+  --sfb-outline-var:   #26354A;
+
+  /* --- primary: mid-emerald FILL (white text) + bright accent for TEXT --- */
+  --sfb-primary:       #1FA863;   /* bg-primary fill */
+  --sfb-primary-bright:#5CE394;   /* text-primary accent on dark */
+  --sfb-primary-cont:  #15532F;   /* bg-primary-container */
+  --sfb-on-primary:    #04210E;   /* kept dark but fill is bright enough */
+  --sfb-on-primary-c:  #93EEB4;   /* on-primary-container */
+  --sfb-primary-fixed: #1FA863;
+  --sfb-primary-fixed-dim:#2BC57E;
+
+  /* --- secondary: amber --- */
+  --sfb-secondary:     #E79A47;
+  --sfb-secondary-bright:#F0AE5C;
+  --sfb-secondary-cont:#3A2A15;
+  --sfb-on-secondary:  #241400;
+  --sfb-on-secondary-c:#F3C78C;
+  --sfb-secondary-fixed:#E79A47;
+  --sfb-on-secondary-fixed:#231200;
+
+  /* --- error: red --- */
+  --sfb-error:         #FF6B6B;
+  --sfb-error-cont:    #3A1618;
+  --sfb-on-error-c:    #FFC9C4;
+
+  --sfb-glow: 0 0 0 1px rgba(92,227,148,.10), 0 8px 30px -12px rgba(0,0,0,.8);
+  --sfb-ring: 0 0 0 2px rgba(92,227,148,.55), 0 0 18px -4px rgba(92,227,148,.45);
+
+  /* --- ambient "sky" palette — background detailing only (not UI chrome) --- */
+  --sfb-sky-cream:  255,251,222;  /* #FFFBDE */
+  --sfb-sky-light:  145,200,228;  /* #91C8E4 */
+  --sfb-sky-mid:    116,155,194;  /* #749BC2 */
+  --sfb-sky-deep:    70,130,169;  /* #4682A9 */
+}
+
+/* ---------------------------------------------------------------------------
+   1. Page canvas + ambient background
+   --------------------------------------------------------------------------- */
+html{ color-scheme: dark; }
+body{
+  background-color: var(--sfb-bg) !important;
+  color: var(--sfb-on);
+  /* Smooth, layered sky canvas — no pattern, just softly blended light.
+     Layers paint front → back; every falloff is wide (≥70%) so the colours
+     melt into each other and into the dark base with no visible seams:
+       1. deep-blue "dawn" glow bleeding down from the top
+       2. mid-blue counter-glow rising from the lower-left
+       3. light-blue soft core breathing through the centre
+       4. warm cream highlight so the picture isn't cold
+       5. a gentle top→bottom tonal wash tying the whole page together */
+  background-image:
+    radial-gradient(1500px 1000px at 78% -16%, rgba(var(--sfb-sky-deep),.26), transparent 72%),
+    radial-gradient(1300px 900px at 2% 118%, rgba(var(--sfb-sky-mid),.17), transparent 74%),
+    radial-gradient(1100px 820px at 55% 50%, rgba(var(--sfb-sky-light),.075), transparent 78%),
+    radial-gradient(950px 680px at 22% 8%, rgba(var(--sfb-sky-cream),.05), transparent 72%),
+    linear-gradient(176deg,
+      rgba(var(--sfb-sky-deep),.16) 0%,
+      rgba(var(--sfb-sky-mid),.07) 30%,
+      rgba(7,11,17,0) 62%,
+      rgba(var(--sfb-sky-deep),.10) 100%);
+  background-attachment: fixed;
+}
+
+/* keep the hand-drawn SVG grid motif subtle on dark */
+::selection{ background: rgba(92,227,148,.28); color:#fff; }
+
+/* Soft dimensional sheen on the big panels so they read as layered glass
+   sitting in the backdrop, not flat cut-outs. Low-alpha vertical gradient
+   (lighter sky at the top, deeper at the base) painted OVER the solid fill. */
+.bg-surface,
+.bg-surface-container-lowest,
+.bg-surface-container-low,
+.bg-surface-container,
+.bg-surface-container-high{
+  background-image: linear-gradient(180deg,
+    rgba(var(--sfb-sky-light),.05) 0%,
+    rgba(var(--sfb-sky-mid),.02) 48%,
+    rgba(var(--sfb-sky-deep),.05) 100%) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   2. Surface background classes  (bg-*)
+   --------------------------------------------------------------------------- */
+.bg-surface{ background-color: var(--sfb-surface) !important; }
+.bg-surface-container-lowest{ background-color: var(--sfb-sc-lowest) !important; }
+.bg-surface-container-low{ background-color: var(--sfb-sc-low) !important; }
+.bg-surface-container{ background-color: var(--sfb-sc) !important; }
+.bg-surface-container-high{ background-color: var(--sfb-sc-high) !important; }
+.bg-surface-container-highest{ background-color: var(--sfb-sc-highest) !important; }
+.bg-surface-dim{ background-color: var(--sfb-dim) !important; }
+/* inverse-surface = the "screen" panels (camera feed); make it a near-black monitor on dark */
+.bg-inverse-surface{ background-color:#050A14 !important; }
+.bg-surface-container-lowest\/95{ background-color: rgba(12,17,26,.90) !important; }
+.bg-surface-container-low\/60{ background-color: rgba(19,27,40,.60) !important; }
+
+/* alpha variants used by the JS-generated rows / hovers */
+.bg-surface-container-low\/50{ background-color: rgba(19,27,40,.50) !important; }
+.bg-surface-container-low\/60{ background-color: rgba(19,27,40,.60) !important; }
+.bg-surface-container-low\/70{ background-color: rgba(19,27,40,.72) !important; }
+.bg-surface-container-low\/80{ background-color: rgba(19,27,40,.82) !important; }
+.hover\:bg-surface-container-low\/60:hover{ background-color: rgba(26,36,54,.72) !important; }
+
+/* primary / secondary / error fills */
+.bg-primary{ background-color: var(--sfb-primary) !important; }
+.bg-primary-container{ background-color: var(--sfb-primary-cont) !important; }
+.bg-primary-fixed{ background-color: var(--sfb-primary-fixed) !important; }
+.bg-primary-fixed-dim{ background-color: var(--sfb-primary-fixed-dim) !important; }
+.bg-on-primary-container{ background-color: var(--sfb-on-primary-c) !important; }
+.bg-primary\/10{ background-color: rgba(31,168,99,.14) !important; }
+.bg-primary-fixed\/20{ background-color: rgba(31,168,99,.18) !important; }
+.bg-primary-fixed\/30{ background-color: rgba(31,168,99,.24) !important; }
+.bg-primary-fixed\/40{ background-color: rgba(31,168,99,.30) !important; }
+
+.bg-secondary{ background-color: var(--sfb-secondary) !important; }
+.bg-secondary-container{ background-color: var(--sfb-secondary-cont) !important; }
+.bg-secondary-fixed{ background-color: var(--sfb-secondary-fixed) !important; }
+.bg-secondary-fixed\/25{ background-color: rgba(231,154,71,.22) !important; }
+
+.bg-error{ background-color: var(--sfb-error) !important; }
+.bg-error-container{ background-color: var(--sfb-error-cont) !important; }
+
+/* hover fills (keep readable with the SAME text color the markup pairs) */
+.hover\:bg-primary:hover{ background-color: #24BE70 !important; }
+.hover\:bg-primary-container:hover{ background-color: #1C6B3D !important; }
+.hover\:bg-surface-container:hover{ background-color: var(--sfb-sc-high) !important; }
+
+/* ---------------------------------------------------------------------------
+   3. Text colors  (text-*)
+   --------------------------------------------------------------------------- */
+.text-on-surface{ color: var(--sfb-on) !important; }
+.text-on-surface-variant{ color: var(--sfb-on-variant) !important; }
+.text-outline{ color: var(--sfb-outline) !important; }
+
+.text-primary{ color: var(--sfb-primary-bright) !important; }         /* OK / accent */
+.text-primary-container{ color: var(--sfb-primary-bright) !important; } /* used as bright-green text on dark chips */
+.text-on-primary{ color: #FFFFFF !important; }                        /* on emerald fills */
+.text-on-primary-container{ color: var(--sfb-on-primary-c) !important; }
+.text-on-primary-fixed{ color: #E9FBEF !important; }
+.text-on-primary-fixed-variant{ color: #BFEFCF !important; }
+
+.text-secondary{ color: var(--sfb-secondary-bright) !important; }     /* WARNING / mounted */
+.text-on-secondary{ color: #FFFFFF !important; }
+.text-on-secondary-container{ color: var(--sfb-on-secondary-c) !important; }
+.text-on-secondary-fixed{ color: var(--sfb-on-secondary-fixed) !important; }
+
+.text-error{ color: var(--sfb-error) !important; }                    /* CRITICAL / fault */
+.text-on-error-container{ color: var(--sfb-on-error-c) !important; }
+
+.text-inverse-on-surface{ color:#AEBEB4 !important; }
+.placeholder\:text-outline\/60::placeholder{ color: rgba(140,156,146,.55) !important; }
+.placeholder\:text-on-surface-variant::placeholder{ color: rgba(140,156,146,.6) !important; }
+
+/* ---------------------------------------------------------------------------
+   4. Borders
+   --------------------------------------------------------------------------- */
+.border-outline-variant{ border-color: var(--sfb-outline-var) !important; }
+.border-outline-variant\/60{ border-color: rgba(38,53,74,.7) !important; }
+.border-secondary{ border-color: var(--sfb-secondary) !important; }
+.border-error{ border-color: var(--sfb-error) !important; }
+
+/* ---------------------------------------------------------------------------
+   5. Shadows — deep + a faint lift on dark so cards separate without borders
+   --------------------------------------------------------------------------- */
+.shadow-sm{ box-shadow: 0 1px 2px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.015) !important; }
+.shadow-md{ box-shadow: 0 6px 22px -10px rgba(0,0,0,.75), 0 0 0 1px rgba(var(--sfb-sky-light),.09) !important; }
+.hover\:shadow-md:hover{ box-shadow: 0 10px 28px -10px rgba(0,0,0,.8), 0 0 0 1px rgba(var(--sfb-sky-light),.16) !important; }
+.shadow-xl{ box-shadow: 0 24px 60px -24px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.02) !important; }
+.shadow-inner{ box-shadow: inset 0 1px 3px rgba(0,0,0,.6) !important; }
+
+/* ---------------------------------------------------------------------------
+   6. Component polish (new rules — not overrides)
+   --------------------------------------------------------------------------- */
+
+/* Accessible focus rings (ring-* doesn't exist in the frozen subset) */
+input:focus-visible, select:focus-visible, textarea:focus-visible,
+button:focus-visible, a:focus-visible, [tabindex]:focus-visible{
+  outline: none;
+  box-shadow: var(--sfb-ring);
+  border-radius: 6px;
+}
+
+/* form fields: hairline + emerald focus glow, smooth */
+input, select, textarea{
+  border: 1px solid rgba(92,227,148,.10);
+  transition: background-color .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+input:focus, select:focus, textarea:focus{
+  border-color: rgba(92,227,148,.45);
+  box-shadow: var(--sfb-ring);
+}
+
+/* primary button: give the emerald fill a subtle top-sheen gradient + motion */
+button.bg-primary, button.bg-primary-container{
+  background-image: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0) 42%);
+  transition: background-color .16s ease, box-shadow .16s ease, transform .08s ease;
+}
+button.bg-primary:hover, button.bg-primary-container:hover{
+  box-shadow: 0 8px 24px -10px rgba(31,168,99,.6), 0 0 0 1px rgba(92,227,148,.25);
+}
+
+/* generic smoothing on interactive chrome */
+a, button, .strategy-btn, label[role], [data-strategy]{ transition: color .15s ease, background-color .15s ease, box-shadow .15s ease, transform .1s ease; }
+
+/* Live-status "ROVER ONLINE" style pulse dots read brighter on dark */
+.animate-ping, .animate-pulse{ filter: drop-shadow(0 0 4px rgba(92,227,148,.5)); }
+
+/* Fixed command-bar header: hairline accent divider + depth on dark */
+header.fixed{ border-bottom: 1px solid rgba(var(--sfb-sky-light),.22); box-shadow: 0 8px 30px -18px rgba(0,0,0,.9) !important; }
+/* (active nav tab keeps its emerald fill + white text from the markup) */
+
+/* ---------------------------------------------------------------------------
+   7. SVG charts — recolor strokes/areas to emerald (ids + viewBox preserved)
+   --------------------------------------------------------------------------- */
+#history-line, #chart-line{ stroke: #5CE394 !important; stroke-width: 2.25 !important;
+  filter: drop-shadow(0 0 5px rgba(92,227,148,.45)); }
+#history-area, #chart-area{ fill: rgba(92,227,148,.12) !important; }
+#history-svg line, #chart-svg line[id^="grid"]{ stroke: rgba(158,176,166,.14) !important; }
+#threshold-line{ stroke: var(--sfb-secondary) !important; }
+#threshold-label{ fill: var(--sfb-secondary-bright) !important; }
+/* dry-point markers stay red (below-threshold meaning) — JS sets fill #ba1a1a */
+
+/* ---------------------------------------------------------------------------
+   8. Auth pages — glowing-ridges canvas + glass card
+   --------------------------------------------------------------------------- */
+#ridges-bg{
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  z-index: 0; display: block; pointer-events: none;
+  background: #060A12;   /* fallback paint before/without WebGL */
+}
+body:has(#ridges-bg) > main{ position: relative; z-index: 1; }
+
+/* frosted command-console card floating over the ridges */
+.sfb-auth-card{
+  background-color: rgba(11,17,27,.62) !important;
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  border: 1px solid rgba(92,227,148,.14);
+  box-shadow:
+    0 30px 80px -30px rgba(0,0,0,.85),
+    0 0 0 1px rgba(255,255,255,.03),
+    inset 0 1px 0 rgba(255,255,255,.05) !important;
+}
+/* keep the footer bleed strip legible on glass */
+.sfb-auth-card .bg-surface-container-low{ background-color: rgba(19,27,40,.55) !important; }
+
+/* ---------------------------------------------------------------------------
+   9. Motion sensitivity
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}

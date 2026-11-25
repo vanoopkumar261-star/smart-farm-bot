@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><title>Smart Farm Bot - Login</title><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="css/fonts.css" rel="stylesheet"/>
+<link href="css/tailwind.build.css" rel="stylesheet"/>
+<link href="css/theme.css?v=3" rel="stylesheet"/><meta content="web_blank" name="shell-type"/>
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface font-body-md text-on-surface antialiased flex items-center justify-center min-h-screen"><canvas id="ridges-bg"></canvas><main class="w-full max-w-md mx-auto p-space-lg"><div class="flex flex-col w-full">
+<div class="sfb-auth-card relative w-full rounded-xl bg-surface-container-lowest shadow-md overflow-hidden p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="inline-flex items-center gap-space-2xs px-space-xs py-space-2xs rounded bg-surface-container text-on-surface-variant font-label-caps text-label-caps">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span>GATEWAY: CONNECTED</span>
+</div>
+<div class="font-label-caps text-label-caps text-outline">
+        CH-04 • 2.4GHZ
+      </div>
+</div>
+<div class="flex flex-col items-center text-center mt-space-xs">
+<div class="w-16 h-16 rounded-lg bg-surface-container-low p-space-xs flex items-center justify-center shadow-sm mb-space-sm">
+<img alt="Smart Farm Bot Rover Logo" class="w-full h-full object-contain rounded" src="assets/logo.png"/>
+</div>
+<h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">
+        Smart Farm Bot
+      </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">
+        Agricultural Line-Following Rover Control System
+      </p>
+</div>
+<div class="flex items-center justify-between px-space-sm py-space-xs rounded bg-surface-container-low text-on-surface-variant font-telemetry-unit text-telemetry-unit">
+<span class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-sm text-primary">satellite_alt</span>
+<span>RTK: DGPS FIXED</span>
+</span>
+<span class="font-telemetry-readout text-label-caps text-primary">
+        99.4% SIG
+      </span>
+</div>
+<form class="flex flex-col gap-space-sm mt-space-2xs" id="loginForm">
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-md text-label-md text-on-surface flex justify-between items-center" for="operatorId">
+<span>Operator ID or Callcard</span>
+<span class="font-label-caps text-label-caps text-outline">AUTH-LEVEL 2</span>
+</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-space-sm text-outline text-lg pointer-events-none">badge</span>
+<input class="w-full h-9 pl-9 pr-space-sm bg-surface-container-lowest text-on-surface font-telemetry-readout text-body-md rounded shadow-sm focus:outline-none focus:bg-surface-container-low placeholder:text-outline/60" id="operatorId" placeholder="operator_id or username" type="text" value=""/>
+</div>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface" for="passwordField">
+            Pairing Passkey
+          </label>
+<a class="font-body-sm text-body-sm text-primary hover:underline" href="#">
+            Forgot Key?
+          </a>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-space-sm text-outline text-lg pointer-events-none">key</span>
+<input class="w-full h-9 pl-9 pr-9 bg-surface-container-lowest text-on-surface font-telemetry-readout text-body-md rounded shadow-sm focus:outline-none focus:bg-surface-container-low placeholder:text-outline/60" id="passwordField" placeholder="Enter security token" type="password" value=""/>
+<button aria-label="Toggle password view" class="absolute right-space-xs text-outline hover:text-on-surface p-space-2xs flex items-center justify-center transition-colors" id="togglePassword" onclick="togglePasswordVisibility()" type="button">
+<span class="material-symbols-outlined text-lg" id="eyeIcon">visibility</span>
+</button>
+</div>
+</div>
+<div class="hidden flex items-start gap-space-xs p-space-sm rounded bg-error-container text-on-error-container shadow-sm transition-all duration-200" id="authAlert">
+<span class="material-symbols-outlined text-error text-lg mt-0.5 shrink-0">error</span>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps uppercase tracking-wider text-error">Auth Failure</span>
+<p class="font-body-sm text-body-sm mt-space-2xs leading-tight" id="authAlertMessage">
+            Invalid credentials.
+          </p>
+</div>
+</div>
+<button class="w-full h-10 mt-space-xs bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md rounded flex items-center justify-center gap-space-xs shadow-sm transition-all active:scale-[0.99]" type="submit">
+<span class="material-symbols-outlined text-lg">lock_open</span>
+<span>Log In to Telemetry Rack</span>
+</button>
+</form>
+<div class="flex items-center justify-center pt-space-xs">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Don't have an account? 
+        <a class="font-label-md text-label-md text-primary font-semibold hover:underline" href="register.html">Register Callcard</a>
+</p>
+</div>
+<div class="pt-space-sm mt-space-xs bg-surface-container-low -mx-space-lg -mb-space-lg p-space-md flex flex-col items-center justify-center gap-space-2xs text-center">
+<div class="flex items-center gap-space-xs font-label-caps text-label-caps text-on-surface-variant">
+<span class="material-symbols-outlined text-xs text-primary">verified_user</span>
+<span>Firmware v2.4.1-rc3</span>
+<span>•</span>
+<span>ESP-NOW Encrypted Gateway</span>
+</div>
+<p class="font-telemetry-unit text-telemetry-unit text-outline">
+        UUID: 8F2A-44B1-AGRIC-NODE-01
+      </p>
+</div>
+</div>
+</div>
+<script>
+  function togglePasswordVisibility() {
+    const input = document.getElementById('passwordField');
+    const eyeIcon = document.getElementById('eyeIcon');
+    if (input.type === 'password') {
+      input.type = 'text';
+      eyeIcon.textContent = 'visibility_off';
+    } else {
+      input.type = 'password';
+      eyeIcon.textContent = 'visibility';
+    }
+  }
+
+
+</script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/glowing-ridges.js"></script>
+</main></body></html>

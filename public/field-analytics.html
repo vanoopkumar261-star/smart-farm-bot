@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><title>Smart Farm Bot - Field Analytics</title><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="css/fonts.css" rel="stylesheet"/>
+<link href="css/tailwind.build.css" rel="stylesheet"/>
+<link href="css/theme.css?v=3" rel="stylesheet"/><meta content="web_standard" name="shell-type"/>
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head>
+<body class="bg-surface font-body-md text-on-surface antialiased">
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+<div class="h-28 w-full flex flex-col justify-between">
+<div class="h-16 px-margin md:px-margin-desktop flex items-center justify-between gap-gutter">
+<div class="flex items-center gap-space-lg"><img alt="Smart Farm Bot Rover Logo" class="h-8 w-auto object-contain" src="assets/logo.png"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">Smart Farm Bot</span><div class="flex items-center gap-space-xs mt-space-2xs"><span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span><span class="font-label-caps text-label-caps text-primary uppercase font-semibold">ROVER ONLINE • FIELD 04</span></div></div></div>
+<div class="flex items-center gap-space-md">
+<div class="hidden lg:flex items-center gap-space-xs px-space-md py-space-xs rounded bg-surface-container-low"><span class="material-symbols-outlined text-outline text-[16px]">schedule</span><span id="header-clock" class="font-telemetry-readout text-telemetry-unit text-on-surface font-medium">--:--:--</span></div>
+<div class="hidden sm:flex items-center gap-space-sm px-space-md py-space-2xs rounded bg-surface-container-low"><span id="header-username" class="font-label-caps text-label-caps text-on-surface-variant">user: -</span><span id="header-role" class="font-label-caps text-label-caps text-primary px-space-xs py-space-2xs rounded bg-primary-fixed/30 font-semibold">-</span></div>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+<a id="logout-link" class="flex items-center gap-space-xs px-space-md py-space-xs rounded bg-surface-container-low hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" data-path="login" href="login.html"><span class="material-symbols-outlined text-[16px]">logout</span><span class="hidden md:inline">Log Out</span></a>
+</div>
+</div>
+<div class="h-12 px-margin md:px-margin-desktop flex items-center bg-surface-container-low/60">
+<nav class="flex items-center gap-space-xs overflow-x-auto">
+<a class="px-space-md py-space-xs rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="dashboard" href="dashboard.html">Dashboard</a>
+<a class="px-space-md py-space-xs rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="hardware" href="hardware.html">Hardware</a>
+<a class="px-space-md py-space-xs rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="mission-planner" href="coming-soon-1.html">Mission Planner</a>
+<a aria-current="page" class="px-space-md py-space-xs rounded font-label-md transition-colors whitespace-nowrap bg-primary text-on-primary shadow-[0_1px_4px_rgba(0,0,0,0.08)]" data-path="field-analytics" href="field-analytics.html">Field Analytics</a>
+</nav>
+</div>
+</div>
+</header>
+
+<main class="w-full pt-28 bg-surface min-h-screen"><div class="w-full px-margin md:px-margin-desktop py-space-xl flex flex-col gap-space-xl">
+
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs text-primary"><span class="material-symbols-outlined text-[18px]">analytics</span><span class="font-label-caps text-label-caps uppercase tracking-wider font-semibold">Field Analytics</span></div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">Sensor History &amp; Persistence</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Read back from SQLite via <span class="font-telemetry-readout text-telemetry-unit">/api/history</span>. The soil-moisture series falling below the 30% threshold into <span class="text-error font-semibold">DRY</span> is live proof the JDBC persistence layer is storing readings.</p>
+</div>
+
+<!-- history chart -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px] text-secondary">show_chart</span><h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">History — <span id="chart-channel">SOIL-01</span></h2></div>
+<select id="history-select" class="bg-surface-container-low text-on-surface font-label-caps text-label-caps font-semibold px-space-sm py-space-2xs rounded focus:outline-none cursor-pointer">
+<option value="SOIL-01">Soil Moisture (SOIL-01)</option>
+<option value="TEMP-01">Soil Temperature (TEMP-01)</option>
+<option value="OBS-01">Obstacle Distance (OBS-01)</option>
+<option value="BAT-01">Battery (BAT-01)</option>
+<option value="LINE-01">Line Offset (LINE-01)</option>
+</select>
+</div>
+
+<div class="w-full bg-surface-container-low/50 rounded-lg p-space-md">
+<div class="w-full h-64 relative">
+<svg id="chart-svg" class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 640 240">
+<defs><lineargradient id="areaGrad" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#835425" stop-opacity="0.22"></stop><stop offset="100%" stop-color="#835425" stop-opacity="0.0"></stop></lineargradient></defs>
+<line id="grid-1" opacity="0.4" stroke="#c2c9bb" stroke-dasharray="2 3" stroke-width="0.75" x1="0" x2="640" y1="60" y2="60"></line>
+<line id="grid-2" opacity="0.4" stroke="#c2c9bb" stroke-dasharray="2 3" stroke-width="0.75" x1="0" x2="640" y1="120" y2="120"></line>
+<line id="grid-3" opacity="0.4" stroke="#c2c9bb" stroke-dasharray="2 3" stroke-width="0.75" x1="0" x2="640" y1="180" y2="180"></line>
+<line id="threshold-line" stroke="#ba1a1a" stroke-dasharray="5 4" stroke-width="1.25" x1="0" x2="640" y1="0" y2="0" style="display:none"></line>
+<text id="threshold-label" x="6" y="0" fill="#ba1a1a" class="font-telemetry-unit" style="font-size:10px;display:none">30% DRY threshold</text>
+<polygon id="chart-area" fill="url(#areaGrad)" points=""></polygon>
+<polyline id="chart-line" fill="none" points="" stroke="#835425" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline>
+<g id="chart-dry-points"></g>
+</svg>
+</div>
+<div class="flex items-center justify-between font-label-caps text-label-caps text-outline mt-space-xs">
+<span id="axis-oldest">—</span><span id="axis-mid" class="text-on-surface-variant">—</span><span id="axis-now" class="text-on-surface font-bold">NOW: —</span>
+</div>
+</div>
+
+<!-- stat tiles -->
+<div class="grid grid-cols-2 md:grid-cols-5 gap-space-md">
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Current</span><span id="stat-current" class="font-telemetry-readout text-headline-sm text-on-surface font-bold">—</span></div>
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Min</span><span id="stat-min" class="font-telemetry-readout text-headline-sm text-on-surface font-bold">—</span></div>
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Max</span><span id="stat-max" class="font-telemetry-readout text-headline-sm text-on-surface font-bold">—</span></div>
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Mean</span><span id="stat-mean" class="font-telemetry-readout text-headline-sm text-on-surface font-bold">—</span></div>
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Rows (DRY)</span><span id="stat-rows" class="font-telemetry-readout text-headline-sm text-on-surface font-bold">—</span></div>
+</div>
+</div>
+
+<!-- fault log -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px] text-secondary">report</span><h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Fault Log — <span id="fault-total">—</span></h2></div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm">
+<thead><tr class="bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps uppercase">
+<th class="py-space-xs px-space-sm rounded-l">Time</th><th class="py-space-xs px-space-sm">Source</th><th class="py-space-xs px-space-sm">Exception</th><th class="py-space-xs px-space-sm rounded-r">Message</th>
+</tr></thead>
+<tbody id="fault-table-body" class="divide-y divide-transparent"></tbody>
+</table>
+</div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/field-analytics.js"></script>
+</div></main>
+
+<footer class="w-full bg-surface-container-low py-space-lg"><div class="w-full px-margin md:px-margin-desktop flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><span class="font-label-caps text-label-caps text-outline">TELEMETRY: SIMULATED</span><span class="font-label-caps text-label-caps text-outline">SQLite PERSISTENCE: ACTIVE</span></div><div class="font-label-caps text-label-caps text-outline">Smart Farm Bot — B.Tech OOP course project</div></div></footer>
+</body></html>

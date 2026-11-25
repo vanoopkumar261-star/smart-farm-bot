@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><title>Smart Farm Bot - Module Bay</title><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="css/fonts.css" rel="stylesheet"/>
+<link href="css/tailwind.build.css" rel="stylesheet"/>
+<link href="css/theme.css?v=3" rel="stylesheet"/><meta content="web_standard" name="shell-type"/>
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head>
+<body class="bg-surface font-body-md text-on-surface antialiased">
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+<div class="h-28 w-full flex flex-col justify-between">
+<div class="h-16 px-margin md:px-margin-desktop flex items-center justify-between gap-gutter">
+<div class="flex items-center gap-space-lg"><img alt="Smart Farm Bot Rover Logo" class="h-8 w-auto object-contain" src="assets/logo.png"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">Smart Farm Bot</span><div class="flex items-center gap-space-xs mt-space-2xs"><span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span><span class="font-label-caps text-label-caps text-primary uppercase font-semibold">ROVER ONLINE • FIELD 04</span></div></div></div>
+<div class="flex items-center gap-space-md">
+<div class="hidden lg:flex items-center gap-space-xs px-space-md py-space-xs rounded bg-surface-container-low"><span class="material-symbols-outlined text-outline text-[16px]">schedule</span><span id="header-clock" class="font-telemetry-readout text-telemetry-unit text-on-surface font-medium">--:--:--</span></div>
+<div class="hidden sm:flex items-center gap-space-sm px-space-md py-space-2xs rounded bg-surface-container-low"><span id="header-username" class="font-label-caps text-label-caps text-on-surface-variant">user: -</span><span id="header-role" class="font-label-caps text-label-caps text-primary px-space-xs py-space-2xs rounded bg-primary-fixed/30 font-semibold">-</span></div>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+<a id="logout-link" class="flex items-center gap-space-xs px-space-md py-space-xs rounded bg-surface-container-low hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" data-path="login" href="login.html"><span class="material-symbols-outlined text-[16px]">logout</span><span class="hidden md:inline">Log Out</span></a>
+</div>
+</div>
+<div class="h-12 px-margin md:px-margin-desktop flex items-center bg-surface-container-low/60">
+<nav class="flex items-center gap-space-xs overflow-x-auto">
+<a class="px-space-md py-space-xs rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="dashboard" href="dashboard.html">Dashboard</a>
+<a aria-current="page" class="px-space-md py-space-xs rounded font-label-md transition-colors whitespace-nowrap bg-primary text-on-primary shadow-[0_1px_4px_rgba(0,0,0,0.08)]" data-path="hardware" href="hardware.html">Hardware</a>
+<a class="px-space-md py-space-xs rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="mission-planner" href="coming-soon-1.html">Mission Planner</a>
+<a class="px-space-md py-space-xs rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="field-analytics" href="field-analytics.html">Field Analytics</a>
+</nav>
+</div>
+</div>
+</header>
+
+<main class="w-full pt-28 bg-surface min-h-screen"><div class="w-full px-margin md:px-margin-desktop py-space-xl flex flex-col gap-space-xl">
+
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs text-primary"><span class="material-symbols-outlined text-[18px]">dashboard_customize</span><span class="font-label-caps text-label-caps uppercase tracking-wider font-semibold">Module Bay</span></div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">Base Platform &amp; Mission Modules</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Mission modules mount on top of the base rover at runtime. Each is one Java class implementing <span class="font-telemetry-readout text-telemetry-unit">MissionModule</span>; the bot polls them all the same way, with no type checks.</p>
+</div>
+
+<!-- live status strip -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-wrap items-center gap-space-md">
+<div class="flex items-center gap-space-sm px-space-md py-space-xs rounded bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span><span class="font-telemetry-readout text-body-sm text-on-surface font-semibold"><span id="sensor-op-count">—</span> base sensors online</span></div>
+<div class="flex items-center gap-space-xs px-space-md py-space-xs rounded bg-surface-container-low"><span class="material-symbols-outlined text-secondary text-[18px]">extension</span><span class="font-label-caps text-label-caps text-on-surface-variant">Modules:</span><span id="module-count" class="font-telemetry-readout text-body-sm font-semibold text-primary">—</span></div>
+<div class="flex items-center gap-space-xs px-space-md py-space-xs rounded bg-surface-container-low"><span class="material-symbols-outlined text-outline text-[18px]">schedule</span><span class="font-label-caps text-label-caps text-on-surface-variant">Updated:</span><span id="bay-updated" class="font-telemetry-readout text-body-sm text-on-surface font-medium">—</span></div>
+</div>
+
+<!-- base platform -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px] text-primary">precision_manufacturing</span><h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Base Platform (fixed)</h2></div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Line-follower drive and the base soil/line/obstacle/battery sensors — always present.</p>
+<div id="base-sensors-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md"></div>
+</div>
+
+<!-- mission modules -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px] text-secondary">extension</span><h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Mission Modules (mounted at runtime)</h2></div>
+<div id="module-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md"></div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/hardware.js"></script>
+</div></main>
+
+<footer class="w-full bg-surface-container-low py-space-lg"><div class="w-full px-margin md:px-margin-desktop flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><span class="font-label-caps text-label-caps text-outline">TELEMETRY: SIMULATED</span><span class="font-label-caps text-label-caps text-outline">POLYMORPHIC MODULE BUS</span></div><div class="font-label-caps text-label-caps text-outline">Smart Farm Bot — B.Tech OOP course project</div></div></footer>
+</body></html>
